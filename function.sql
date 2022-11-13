@@ -20,7 +20,7 @@ BEGIN
 		loop 
 			select press_value into press_old from cd_rule_sr_p crsp 
 					where obj_uid = cast(r01.rule_cond_dtl_uid as varchar);
-			update cd_rule_sr_p set press_value = (select lpad(cast((cast(press_old as integer)+1) as varchar), length(press_old), '0') from cd_rule_sr_p
+			update cd_rule_sr_p set press_value = (select lpad(cast((cast(press_old as integer)+1) as varchar), case when length(press_old) > length(cast((cast(press_old as integer)+1) as varchar)) then length(press_old) else length(cast((cast(press_old as integer)+1) as varchar)) end, '0') from cd_rule_sr_p
 														where obj_uid = cast(r01.rule_cond_dtl_uid as varchar)) 
 				where obj_uid = cast(r01.rule_cond_dtl_uid as varchar);
 		end loop;
@@ -30,7 +30,6 @@ BEGIN
 							when rule_cond_dtl_type = 'NUMBER' then (select press_value from cd_rule_sr_p crsp where obj_uid = rule_cond_dtl_uid)
 							else rule_cond_dtl_init_data
 						end
-						
 					from cd_rule_cond_d crcm  
 						where rule_cond_uid = cast(r.rule_cond_uid as varchar) order by rule_cond_dtl_ord
 		loop 
@@ -39,10 +38,7 @@ BEGIN
 		select concat(rtn, dilimiter) into rtn;
 	end loop;
 --remove dilimiter end
-	SELECT substring(rtn, 1, length(rtn)-1) into rtn; 
---	create rule
+	SELECT substring(rtn, 1, length(rtn)-1) into rtn;
 return rtn;
 END; $function$
 ;
-
-select public.call_pids('PIDS_ABC_00')
