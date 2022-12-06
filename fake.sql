@@ -2,6 +2,7 @@ create table cd_rule_m
 (
 	rule_uid varchar(100),
 	rule_init_data varchar(100),
+	rule-dilimeter varchar(1),
 	rule_cd varchar(100)
 );
 
@@ -33,3 +34,8 @@ create table cd_rule_sr_p
 	press_value varchar(100),
 	del_yn char(1) default 'N'
 );
+
+
+https://www.w3resource.com/PostgreSQL/substring-function.php
+
+https://www.geeksforgeeks.org/postgresql-function-returning-a-table/?ref=lbp
